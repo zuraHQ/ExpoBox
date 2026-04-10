@@ -4,15 +4,15 @@ RUN apt-get update && apt-get install -y bash && rm -rf /var/lib/apt/lists/*
 RUN npm install -g expo-cli @expo/ngrok
 
 WORKDIR /app/project
-COPY templates/expo-minimal/ .
+COPY template/ .
 RUN npm install
 
 WORKDIR /app/server
-COPY apps/preview/package.json .
-COPY apps/preview/server.js .
+COPY preview/package.json .
+COPY preview/server.js .
 RUN npm install
 
-COPY apps/preview/start.sh /app/start.sh
+COPY preview/start.sh /app/start.sh
 RUN chmod +x /app/start.sh
 
 ENV CI=1

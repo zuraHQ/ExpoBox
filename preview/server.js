@@ -17,7 +17,7 @@ app.use("*", async (c, next) => {
   const auth = c.req.header("Authorization");
   const expected = process.env.PREVIEW_SECRET;
 
-  if (!expected || auth !== `Bearer ${expected}`) {
+  if (expected && auth !== `Bearer ${expected}`) {
     return c.json({ error: "unauthorized" }, 401);
   }
 
