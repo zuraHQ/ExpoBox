@@ -15,6 +15,17 @@ app.use("*", cors({ origin: "*" }));
 
 app.get("/health", (c) => c.json({ ok: true }));
 
+/*
+ * Preview API
+ *
+ * Each project gets an isolated Expo dev server running in a Cloudflare Container.
+ * POST   /api/preview                    - Spin up a container and get its status
+ * GET    /api/preview/:projectId         - Poll for status and expo tunnel URL (for QR code)
+ * PUT    /api/preview/:projectId/files/* - Push a file into the running container (Metro hot-reloads)
+ * POST   /api/preview/:projectId/sync   - Batch push multiple files at once
+ * DELETE /api/preview/:projectId         - Destroy the container
+ */
+
 app.post("/api/preview", async (c) => {
   const { projectId } = await c.req.json();
   if (!projectId) return c.json({ error: "projectId required" }, 400);
